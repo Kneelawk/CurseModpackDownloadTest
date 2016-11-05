@@ -1,0 +1,9 @@
+{
+  "name": "curse-modpack-download-test",
+  "version": "0.0.1",
+  "main": "index.js",
+  "dependencies": {
+    "electron": "^1.4.5",
+    "node-rest-client": "^2.0.1"
+  }
+}
