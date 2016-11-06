@@ -1,4 +1,8 @@
-const { BrowserWindow, app, ipcMain } = require("electron");
+const {
+  BrowserWindow,
+  app,
+  ipcMain
+} = require("electron");
 
 let win;
 
