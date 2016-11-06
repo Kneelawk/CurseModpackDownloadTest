@@ -11,7 +11,7 @@ function openWindow() {
     width: 300,
     height: 200
   });
-  win.loadURL(`file://${__dirname}/web/login.html`);
+  win.loadURL(`file://${__dirname}/app/web/login.html`);
   win.setMenu(null);
   win.on('closed', () => {
     win = null;
