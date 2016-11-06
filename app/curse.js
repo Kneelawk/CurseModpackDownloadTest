@@ -13,7 +13,7 @@ class Curse {
     this.client = new Client();
   }
 
-  login(password, username) {
+  login(username, password) {
     let args = {
       data: {
         username,
@@ -47,6 +47,10 @@ class Curse {
     });
 
     return callback;
+  }
+
+  isLoggedIn() {
+    return !!this.token;
   }
 }
 

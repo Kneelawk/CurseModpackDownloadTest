@@ -2,12 +2,40 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <title>Curse Modpack Download Test</title>
+  <meta charset="utf-8">
+  <title>Curse Modpack Download Test</title>
+  <script src="login.js" charset="utf-8"></script>
 </head>
 
 <body>
-
+  <div class="curse-login">
+    <table>
+      <tr>
+        <td>
+          Username
+        </td>
+        <td>
+          <input type="field" name="username" value="">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Password
+        </td>
+        <td>
+          <input type="password" name="password" value="">
+        </td>
+      </tr>
+    </table>
+    <div>
+      <input type="button" name="curse-login-button" value="Login In">
+    </div>
+    <div class="login-result" id="curse-login-result">
+    </div>
+  </div>
+  <div class="login-finish">
+    <input type="button" name="login-finish" disabled="true" value="Continue">
+  </div>
 </body>
 
 </html>
