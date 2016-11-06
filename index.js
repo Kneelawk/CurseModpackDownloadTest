@@ -4,6 +4,10 @@ const {
   ipcMain
 } = require("electron");
 
+const {
+  Curse
+} = require("./app/curse");
+
 let win;
 
 function openWindow() {
