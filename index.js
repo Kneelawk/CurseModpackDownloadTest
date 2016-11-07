@@ -6,25 +6,12 @@ const {
 
 const {
   Curse
-} = require("./app/curse");
+} = require("./app/curse.js");
 
-let loginWin;
 let appWin;
 let curse = new Curse();
 
-function openLogin() {
-  loginWin = new BrowserWindow({
-    width: 300,
-    height: 200
-  });
-  loginWin.loadURL(`file://${__dirname}/app/web/login.html`);
-  loginWin.setMenu(null);
-  loginWin.on('closed', () => {
-    loginWin = null;
-  });
-}
-
-function openAppWindow() {
+function openWindow() {
   appWin = new BrowserWindow({
     width: 1000,
     height: 600
@@ -36,7 +23,7 @@ function openAppWindow() {
   });
 }
 
-app.on('ready', openLogin);
+app.on('ready', openWindow);
 
 app.on('all-window-closed', () => {
   if (process.platform != 'darwin') {
@@ -45,9 +32,7 @@ app.on('all-window-closed', () => {
 });
 
 app.on('activated', () => {
-  if (!curse.isLoggedIn() && loginWin === null) {
-    openLogin();
-  } else if (appWin === null) {
+  if (appWin === null) {
     openAppWindow();
   }
 });
@@ -59,12 +44,15 @@ ipcMain.on('curse-login', (event, data) => {
       event.sender.send('curse-login-success');
     })
     .on('error', (result) => {
-      event.sender.send('curse-login-failure');
+      let message;
+      if (result.response) {
+        message = 'Status ' + result.response.statusCode + ' ' + result.response.statusMessage;
+      } else if (result.data) {
+        message = result.data.message;
+      }
+      event.sender.send('curse-login-failure', message);
     })
 });
 
 // handle login continue to application
-ipcMain.on('login-finish', (event, arg) => {
-  openAppWindow();
-  loginWin.close();
-});
+ipcMain.on('login-finish', (event, arg) => {});

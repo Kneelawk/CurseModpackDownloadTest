@@ -19,6 +19,7 @@ $(() => {
   // continue stuff
   $('[name=login-finish]').click(() => {
     ipcRenderer.send('login-finish');
+    $('#login').hide();
   });
 });
 
@@ -28,14 +29,14 @@ function startLogin() {
     setLoginButtonDisabled(true);
     let username = $('[name=username]').val();
     let password = $('[name=password]').val();
-    ipcRenderer.once('curse-login-success', (result) => {
+    ipcRenderer.once('curse-login-success', (event) => {
       $('#curse-login-result').text('Login Success');
       loggingIn = false;
       setLoginButtonDisabled(false);
       $('[name=login-finish]').prop('disabled', false);
     });
-    ipcRenderer.once('curse-login-failure', (result) => {
-      $('#curse-login-result').text('Login Failure');
+    ipcRenderer.once('curse-login-failure', (event, result) => {
+      $('#curse-login-result').text('Login Failure: ' + result);
       loggingIn = false;
       setLoginButtonDisabled(false);
     });
