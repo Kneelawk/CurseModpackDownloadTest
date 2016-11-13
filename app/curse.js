@@ -5,11 +5,18 @@ const Callback = require("events");
 
 const apiBase = "https://curse-rest-proxy.azurewebsites.net/api";
 const apiAuth = `${apiBase}/authenticate`;
+const apiGetAddon = apiBase + "/addon/${projectId}";
 
 class LoginCallback extends Callback {}
+class GetInformationCallback extends Callback {}
 
 class Curse {
   constructor() {
+    this.client = new Client();
+  }
+
+  constructor(token) {
+    this.token = token;
     this.client = new Client();
   }
 
@@ -51,6 +58,37 @@ class Curse {
 
   isLoggedIn() {
     return !!this.token;
+  }
+
+  getProject(projectId) {
+    if (!this.token) {
+      throw new Error("The curse api has not been authenticated");
+    }
+
+    let args = {
+      path: {
+        projectId
+      },
+      headers: {
+        "Authentication": this.token
+      }
+    };
+
+    let callback = new GetInformationCallback();
+
+    this.client.get(apiGetAddon, args, (data, response) => {
+      if (Math.floor(response.statusCode / 100) == 200) {
+        callback.emit('finish', {
+          data
+        });
+      } else {
+        callback.emit('error', {
+          response
+        });
+      }
+    });
+
+    return callback;
   }
 }
 
