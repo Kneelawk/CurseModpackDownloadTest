@@ -6,6 +6,8 @@ const Callback = require("events");
 const apiBase = "https://curse-rest-proxy.azurewebsites.net/api";
 const apiAuth = `${apiBase}/authenticate`;
 const apiGetAddon = apiBase + "/addon/${projectId}";
+const apiGetAddonFiles = apiBase + "/addon/${projectId}/files";
+const apiGetFile = apiBase + "/addon/${projectId}/file/${fileId}";
 
 class LoginCallback extends Callback {}
 class GetInformationCallback extends Callback {}
@@ -77,7 +79,70 @@ class Curse {
     let callback = new GetInformationCallback();
 
     this.client.get(apiGetAddon, args, (data, response) => {
-      if (Math.floor(response.statusCode / 100) == 200) {
+      if (Math.floor(response.statusCode / 100) == 2) {
+        callback.emit('finish', {
+          data
+        });
+      } else {
+        callback.emit('error', {
+          response
+        });
+      }
+    });
+
+    return callback;
+  }
+
+  getProjectFiles(projectId) {
+    if (!this.token) {
+      throw new Error("The curse api has not been authenticated");
+    }
+
+    let args = {
+      path: {
+        projectId
+      },
+      headers: {
+        "Authentication": this.token
+      }
+    };
+
+    let callback = new GetInformationCallback();
+
+    this.client.get(apiGetAddonFiles, args, (data, response) => {
+      if (Math.floor(resonse.statusCode / 100) == 2) {
+        callback.emit('finish', {
+          data
+        });
+      } else {
+        callback.emit('error', {
+          response
+        });
+      }
+    });
+
+    return callback;
+  }
+
+  getFile(projectId, fileId) {
+    if (!this.token) {
+      throw new Error("The curse api has not been authenticatd");
+    }
+
+    let args = {
+      path: {
+        projectId,
+        fileId
+      },
+      headers: {
+        "Authentication": this.token
+      }
+    };
+
+    let callback = new GetInformationCallback();
+
+    this.client.get(apiGetFile, args, (data, response) => {
+      if (Math.floor(response.statusCode / 100) == 2) {
         callback.emit('finish', {
           data
         });
