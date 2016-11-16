@@ -4,6 +4,7 @@
   "main": "index.js",
   "dependencies": {
     "electron": "^1.4.5",
-    "node-rest-client": "^2.0.1"
+    "node-rest-client": "^2.0.1",
+    "request": "^2.78.0"
   }
 }
