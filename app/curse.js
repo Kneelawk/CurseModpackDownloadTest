@@ -13,11 +13,7 @@ class LoginCallback extends Callback {}
 class GetInfoCallback extends Callback {}
 
 class Curse {
-  constructor() {
-    this.client = new Client();
-  }
-
-  constructor(token) {
+  constructor(token = null) {
     this.token = token;
     this.client = new Client();
   }
@@ -74,7 +70,7 @@ class Curse {
         projectId
       },
       headers: {
-        "Authentication": this.token
+        "Authorization": this.token
       }
     };
 
@@ -104,14 +100,14 @@ class Curse {
         projectId
       },
       headers: {
-        "Authentication": this.token
+        "Authorization": this.token
       }
     };
 
     let callback = new GetInfoCallback();
 
     this.client.get(apiGetAddonFiles, args, (data, response) => {
-      if (Math.floor(resonse.statusCode / 100) == 2) {
+      if (Math.floor(response.statusCode / 100) == 2) {
         callback.emit('finish', data);
       } else {
         callback.emit('error', {
@@ -135,7 +131,7 @@ class Curse {
         fileId
       },
       headers: {
-        "Authentication": this.token
+        "Authorization": this.token
       }
     };
 

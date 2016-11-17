@@ -28,6 +28,7 @@ const curseMods = {
           type: 'no files',
           message: ('Project #' + projectId + ' does not have any files.')
         });
+        return;
       }
 
       let candidate = null;
@@ -47,12 +48,15 @@ const curseMods = {
           type: 'no files for minecraft version',
           message: ('Project #' + projectId + ' does not have any files for minecraft version ' + minecraftVersion)
         });
+        return;
       }
 
       callback.emit('finish', candidate);
     }).on('error', (error) => {
       callback.emit('error', error);
     });
+
+    return callback;
   },
 
   getLatestDownloadUrl(curse, projectId, minecraftVersion) {
