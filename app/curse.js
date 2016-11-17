@@ -10,7 +10,7 @@ const apiGetAddonFiles = apiBase + "/addon/${projectId}/files";
 const apiGetFile = apiBase + "/addon/${projectId}/file/${fileId}";
 
 class LoginCallback extends Callback {}
-class GetInformationCallback extends Callback {}
+class GetInfoCallback extends Callback {}
 
 class Curse {
   constructor() {
@@ -45,11 +45,13 @@ class Curse {
           })
         } else {
           callback.emit('error', {
+            type: 'unsuccessful login',
             data
           });
         }
       } else {
         callback.emit('error', {
+          type: 'bad response code',
           response
         });
       }
@@ -76,15 +78,14 @@ class Curse {
       }
     };
 
-    let callback = new GetInformationCallback();
+    let callback = new GetInfoCallback();
 
     this.client.get(apiGetAddon, args, (data, response) => {
       if (Math.floor(response.statusCode / 100) == 2) {
-        callback.emit('finish', {
-          data
-        });
+        callback.emit('finish', data);
       } else {
         callback.emit('error', {
+          type: 'bad response code',
           response
         });
       }
@@ -107,15 +108,14 @@ class Curse {
       }
     };
 
-    let callback = new GetInformationCallback();
+    let callback = new GetInfoCallback();
 
     this.client.get(apiGetAddonFiles, args, (data, response) => {
       if (Math.floor(resonse.statusCode / 100) == 2) {
-        callback.emit('finish', {
-          data
-        });
+        callback.emit('finish', data);
       } else {
         callback.emit('error', {
+          type: 'bad response code',
           response
         });
       }
@@ -139,15 +139,14 @@ class Curse {
       }
     };
 
-    let callback = new GetInformationCallback();
+    let callback = new GetInfoCallback();
 
     this.client.get(apiGetFile, args, (data, response) => {
       if (Math.floor(response.statusCode / 100) == 2) {
-        callback.emit('finish', {
-          data
-        });
+        callback.emit('finish', data);
       } else {
         callback.emit('error', {
+          type: 'bad response code',
           response
         });
       }
