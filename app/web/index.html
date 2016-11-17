@@ -4,11 +4,19 @@
 <head>
   <meta charset="utf-8">
   <title>Curse Modpack Download Test</title>
+  <link rel="stylesheet" href="index.css" media="screen" title="no title">
+  <script type="text/javascript">
+    const $ = require('./jquery/jquery-3.1.1.min.js');
+  </script>
+  <script src="index.js" charset="utf-8"></script>
   <script src="login.js" charset="utf-8"></script>
 </head>
 
 <body>
-  <div id="login">
+  <div id="tabs" class="disabled">
+    <span class="selected" id="login">Login</span><span id="downloadModpacks">Download Modpacks</span>
+  </div>
+  <div id="login-content">
     <div class="curse-login">
       <table>
         <tr>
@@ -34,9 +42,9 @@
       <div class="login-result" id="curse-login-result">
       </div>
     </div>
-    <div class="login-finish">
-      <input type="button" name="login-finish" disabled="true" value="Continue">
-    </div>
+  </div>
+  <div id="downloadModpacks-content" style="display: none;">
+    Download Modpacks
   </div>
 </body>
 

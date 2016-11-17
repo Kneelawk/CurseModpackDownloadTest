@@ -18,6 +18,7 @@ function openWindow() {
   });
   appWin.loadURL(`file://${__dirname}/app/web/index.html`);
   appWin.setMenu(null);
+  appWin.webContents.openDevTools();
   appWin.on('closed', () => {
     appWin = null;
   });
@@ -39,17 +40,24 @@ app.on('activated', () => {
 
 // handle login stuff
 ipcMain.on('curse-login', (event, data) => {
+  console.log('Logging in...');
   curse.login(data.username, data.password)
-    .on('login', () => {
-      event.sender.send('curse-login-success');
+    .on('login', (login) => {
+      console.log('Logged in as: ' + login.username);
+      event.sender.send('curse-login-success', login.username);
     })
     .on('error', (result) => {
       let message;
       if (result.response) {
-        message = 'Status ' + result.response.statusCode + ' ' + result.response.statusMessage;
+        if (result.response.statusCode == 401) {
+          message = 'Bad username or password.';
+        } else {
+          message = 'Status ' + result.response.statusCode + ' ' + result.response.statusMessage;
+        }
       } else if (result.data) {
         message = result.data.message;
       }
+      console.log('Login Failure: ' + message);
       event.sender.send('curse-login-failure', message);
     })
 });
