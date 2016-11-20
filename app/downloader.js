@@ -14,7 +14,7 @@ function download(url, out) {
 
   let callback = new DownloadCallback();
 
-  request(url).on('response' (response) => {
+  request(url).on('response', (response) => {
     if (Math.floor(response.statusCode / 100) == 2) {
       if (response.headers.includes('content-length')) {
         size = response.headers['content-length'];
@@ -27,6 +27,7 @@ function download(url, out) {
       });
     }
   }).on('data', (chunk) => {
+    downloaded += chunk.length;
     callback.emit('progress', {
       progress: downloaded,
       outOf: size
